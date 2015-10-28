@@ -4,6 +4,8 @@ const Ps = require("perfect-scrollbar");
 const {cartItems,products} = require("../data");
 const QuantityControl = require("./QuantityControl");
 
+const CartStore = require("../stores/CartStore");
+const {removeCartItem} = CartStore;
 let Cart = React.createClass({
   componentDidMount() {
     CartStore.addChangeListener(this.forceUpdate.bind(this));
@@ -13,7 +15,7 @@ let Cart = React.createClass({
   },
 
   renderCartItems() {
-    // let cartItems = ...;
+     let cartItems = CartStore.getCartItems();
     return Object.keys(cartItems).map(key => {
       let item = cartItems[key];
       return <CartItem key={key} item={item}/>
@@ -62,7 +64,7 @@ let CartItem = React.createClass({
               {priceDisplay}
             </div>
           </div>
-          <img className="cart-item__trash" src="img/trash-icon.svg" />
+          <img className="cart-item__trash" src="img/trash-icon.svg" onClick={removeCartItem.bind(this,id)}/>
         </div> {/* cart-item__top-part */}
 
         <div className="cart-item__qty">

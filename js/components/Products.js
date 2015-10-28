@@ -2,9 +2,15 @@ const React = require("react");
 const QuantityControl = require("./QuantityControl");
 const {cartItems,products} = require("../data");
 
+
+
+/*引入Action*/
+const CartStore = require("../stores/CartStore");
+const {addCartItem} = CartStore;
 let Product = React.createClass({
   render() {
     let {id,name,price,imagePath} = this.props.product;
+    let cartItems = CartStore.getCartItems();
     let item = cartItems[id];
 
     let productControl;
@@ -16,7 +22,7 @@ let Product = React.createClass({
 
     } else {
       productControl = (
-        <a className="product__add">
+        <a className="product__add" onClick={addCartItem.bind(this,id)}>
           <img className="product__add__icon" src="img/cart-icon.svg" />
         </a>
       );
@@ -52,8 +58,11 @@ let Product = React.createClass({
 });
 
 let Products = React.createClass({
+  componentDidMount() {
+    CartStore.addChangeListener(this.forceUpdate.bind(this));
+  },
   renderProducts() {
-    // let products ...
+     //let products = 
     let productViews = Object.keys(products).map(id => {
       let product = products[id];
       return (

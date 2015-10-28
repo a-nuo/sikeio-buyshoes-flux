@@ -2,9 +2,18 @@ const React = require("react");
 
 const {cartItems,products} = require("../data");
 
+/*引入Action*/
+const CartStore = require("../stores/CartStore");
+const {updateCartItemQuantity} = CartStore;
+
 let Checkout = React.createClass({
+
+  componentDidMount() {
+    CartStore.addChangeListener(this.forceUpdate.bind(this));
+  },
   render() {
     let subtotal = 0;
+    let cartItems = CartStore.getCartItems();
     Object.keys(cartItems).forEach(key => {
       let {quantity} = cartItems[key];
       let {price} = products[key];
@@ -33,7 +42,7 @@ let Checkout = React.createClass({
             Subtotal
           </div>
           <div className="checkout__line__amount">
-            {`$${subtotal}`}
+            {`$${subtotal.toFixed(2)}`}
           </div>
         </div>
 
