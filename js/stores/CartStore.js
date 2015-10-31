@@ -11,6 +11,9 @@ module.exports = {
 	getCartItems(){
 		return _cartItems;
 	},
+	cartItems(){
+		return _cartItems;
+	},
 	/*Action start*/
 	addCartItem(productId){
 		if(_cartItems[productId] ){

@@ -4,6 +4,7 @@ const {cartItems,products} = require("../data");
 
 /*引入Action*/
 const CartStore = require("../stores/CartStore");
+const ConnectedStore = require("./ConnectedStore");
 const {updateCartItemQuantity} = CartStore;
 
 let Checkout = React.createClass({
@@ -57,4 +58,15 @@ let Checkout = React.createClass({
   }
 });
 
-module.exports = Checkout;
+class ConnectedCart extends React.Component{
+
+  render(){
+    return <ConnectedStore store={CartStore} propNames={["cartItems"]}>
+            {propValues => <Checkout {...propValues}/>}
+          </ConnectedStore>
+
+  }
+
+}
+
+module.exports = ConnectedCart;

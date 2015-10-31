@@ -5,17 +5,18 @@ const {cartItems,products} = require("../data");
 const QuantityControl = require("./QuantityControl");
 
 const CartStore = require("../stores/CartStore");
+const ConnectedStore = require("./ConnectedStore");
 const {removeCartItem} = CartStore;
 let Cart = React.createClass({
   componentDidMount() {
-    CartStore.addChangeListener(this.forceUpdate.bind(this));
+    //CartStore.addChangeListener(this.forceUpdate.bind(this));
 
     let {$content} = this.refs;
     Ps.initialize($content);
   },
 
   renderCartItems() {
-     let cartItems = CartStore.getCartItems();
+     let {cartItems} = this.props;
     return Object.keys(cartItems).map(key => {
       let item = cartItems[key];
       return <CartItem key={key} item={item}/>
@@ -78,4 +79,15 @@ let CartItem = React.createClass({
   }
 });
 
-module.exports = Cart;
+class ConnectedCart extends React.Component{
+
+  render(){
+    return <ConnectedStore store={CartStore} propNames={["cartItems"]}>
+            {propValues => <Cart {...propValues}/>}
+          </ConnectedStore>
+
+  }
+
+}
+
+module.exports = ConnectedCart;
