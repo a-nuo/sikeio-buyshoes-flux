@@ -64,10 +64,6 @@ let Product = React.createClass({
 });
 
 let Products = React.createClass({
-  componentDidMount() {
-    CartStore.addChangeListener(this.forceUpdate.bind(this));
-    LikeStore.addChangeListener(this.forceUpdate.bind(this));
-  },
   renderProducts() {
      //let products = 
     let {cartItems,likeItems}=this.props;

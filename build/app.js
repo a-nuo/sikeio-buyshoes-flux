@@ -20805,7 +20805,7 @@
 	  _createClass(ConnectedStore, [{
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      CartStore.addChangeListener(this.forceUpdate.bind(this));
+	      this.props.store.addChangeListener(this.forceUpdate.bind(this));
 	    }
 	  }, {
 	    key: "render",
@@ -20872,8 +20872,6 @@
 	  displayName: "Cart",
 	
 	  componentDidMount: function componentDidMount() {
-	    //CartStore.addChangeListener(this.forceUpdate.bind(this));
-	
 	    var $content = this.refs.$content;
 	
 	    Ps.initialize($content);
@@ -22838,10 +22836,6 @@
 	var Products = React.createClass({
 	  displayName: "Products",
 	
-	  componentDidMount: function componentDidMount() {
-	    CartStore.addChangeListener(this.forceUpdate.bind(this));
-	    LikeStore.addChangeListener(this.forceUpdate.bind(this));
-	  },
 	  renderProducts: function renderProducts() {
 	    //let products =
 	    var _props2 = this.props;

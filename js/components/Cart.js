@@ -9,7 +9,6 @@ const ConnectedStore = require("./ConnectedStore");
 const {removeCartItem} = CartStore;
 let Cart = React.createClass({
   componentDidMount() {
-    //CartStore.addChangeListener(this.forceUpdate.bind(this));
 
     let {$content} = this.refs;
     Ps.initialize($content);
