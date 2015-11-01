@@ -6,12 +6,16 @@ const {cartItems,products} = require("../data");
 
 /*引入Action*/
 const CartStore = require("../stores/CartStore");
+const LikeStore = require("../stores/LikeStore");
+const ConnectedStore = require("./ConnectedStore");
 const {addCartItem} = CartStore;
+const {addLikeItem} = LikeStore;
 let Product = React.createClass({
   render() {
     let {id,name,price,imagePath} = this.props.product;
-    let cartItems = CartStore.getCartItems();
+    let {cartItems,likeItems} = this.props//CartStore.getCartItems();
     let item = cartItems[id];
+    //let likeItem = LikeStore.getLikeItems()[id];
 
     let productControl;
     if(item != null) {
@@ -28,6 +32,8 @@ let Product = React.createClass({
       );
     }
 
+    //是否为喜欢产品
+    let productHeartImg = likeItems[id]?("img/heart-liked.svg"):("img/heart.svg") ;
     return (
       <div className="product">
 
@@ -50,7 +56,7 @@ let Product = React.createClass({
             {name}
           </div>
 
-          <img className="product__heart" src="img/heart.svg" />
+          <img className="product__heart" src={productHeartImg} onClick={addLikeItem.bind(this,id)}/>
         </div>
       </div>
     );
@@ -60,13 +66,15 @@ let Product = React.createClass({
 let Products = React.createClass({
   componentDidMount() {
     CartStore.addChangeListener(this.forceUpdate.bind(this));
+    LikeStore.addChangeListener(this.forceUpdate.bind(this));
   },
   renderProducts() {
      //let products = 
+    let {cartItems,likeItems}=this.props;
     let productViews = Object.keys(products).map(id => {
       let product = products[id];
       return (
-        <Product key={id} product={product}/>
+        <Product key={id} product={product} cartItems={cartItems} likeItems={likeItems}/>
       );
     });
 
@@ -82,4 +90,20 @@ let Products = React.createClass({
   },
 });
 
-module.exports = Products;
+class ConnectedProducts extends  React.Component{
+    render(){
+
+      return <ConnectedStore store={CartStore} propNames={["cartItems"]}>
+              {propsOfStore1 => {
+                return (
+                  <ConnectedStore store={LikeStore} propNames={["likeItems"]} >
+                    {propsOfStore2 => {
+                      return <Products {...propsOfStore1} {...propsOfStore2}/>;
+                    }}
+                  </ConnectedStore>
+                )
+              }}
+            </ConnectedStore>
+    }
+}
+module.exports = ConnectedProducts;
