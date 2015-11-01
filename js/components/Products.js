@@ -7,8 +7,15 @@ const {cartItems,products} = require("../data");
 /*引入Action*/
 const CartStore = require("../stores/CartStore");
 const LikeStore = require("../stores/LikeStore");
+const ProductStore = require("../stores/ProductStore");
 const ConnectedStore = require("./ConnectedStore");
+//第二种方式
 const MakeConnectedComponent = require("./MakeConnectedComponent");
+//第三种方式
+const connect = require("./connect");
+
+module.exports = ConnectedProducts;
+
 const {addCartItem} = CartStore;
 const {addLikeItem} = LikeStore;
 let Product = React.createClass({
@@ -67,8 +74,8 @@ let Product = React.createClass({
 let Products = React.createClass({
   renderProducts() {
      //let products = 
-    let {cartItems,likeItems}=this.props;
-    let productViews = Object.keys(products).map(id => {
+    let {cartItems,likeItems,filteredProducts}=this.props;
+    let productViews = Object.keys(filteredProducts).map(id => {
       let product = products[id];
       return (
         <Product key={id} product={product} cartItems={cartItems} likeItems={likeItems}/>
@@ -103,6 +110,15 @@ let Products = React.createClass({
             </ConnectedStore>
     }
 }*/
+/** 第二种方式
 module.exports = MakeConnectedComponent(
     MakeConnectedComponent(Products,CartStore,"cartItems"),
-    LikeStore,"likeItems");;
+    LikeStore,"likeItems");;*/
+
+//第三种方式
+@connect(CartStore,"cartItems")
+@connect(LikeStore,"likeItems")
+@connect(ProductStore,"filteredProducts")
+class ConnectedProducts extends Products {};
+
+module.exports = ConnectedProducts;
