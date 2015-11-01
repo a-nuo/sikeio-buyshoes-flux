@@ -6,6 +6,7 @@ const QuantityControl = require("./QuantityControl");
 
 const CartStore = require("../stores/CartStore");
 const ConnectedStore = require("./ConnectedStore");
+const MakeConnectedComponent = require("./MakeConnectedComponent");
 const {removeCartItem} = CartStore;
 let Cart = React.createClass({
   componentDidMount() {
@@ -89,4 +90,4 @@ class ConnectedCart extends React.Component{
 
 }
 
-module.exports = ConnectedCart;
+module.exports = MakeConnectedComponent(Cart,CartStore,"cartItems");

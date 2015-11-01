@@ -20101,7 +20101,7 @@
 	var SiteTitle = __webpack_require__(/*! ./SiteTitle */ 159);
 	var Checkout = __webpack_require__(/*! ./Checkout */ 160);
 	var Cart = __webpack_require__(/*! ./Cart */ 165);
-	var Products = __webpack_require__(/*! ./Products */ 188);
+	var Products = __webpack_require__(/*! ./Products */ 189);
 	
 	var App = React.createClass({
 	  displayName: "App",
@@ -20866,6 +20866,7 @@
 	
 	var CartStore = __webpack_require__(/*! ../stores/CartStore */ 162);
 	var ConnectedStore = __webpack_require__(/*! ./ConnectedStore */ 164);
+	var MakeConnectedComponent = __webpack_require__(/*! ./MakeConnectedComponent */ 188);
 	var removeCartItem = CartStore.removeCartItem;
 	
 	var Cart = React.createClass({
@@ -20990,7 +20991,7 @@
 	  return ConnectedCart;
 	})(React.Component);
 	
-	module.exports = ConnectedCart;
+	module.exports = MakeConnectedComponent(Cart, CartStore, "cartItems");
 	/* cart-item */ /* cart-item__top-part */
 
 /***/ },
@@ -22734,9 +22735,9 @@
 
 /***/ },
 /* 188 */
-/*!***********************************!*\
-  !*** ./js/components/Products.js ***!
-  \***********************************/
+/*!*************************************************!*\
+  !*** ./js/components/MakeConnectedComponent.js ***!
+  \*************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22747,9 +22748,62 @@
 	
 	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var ConnectedStore = __webpack_require__(/*! ./ConnectedStore */ 164);
+	function MakeConnectedComponent(ViewComponent, Store) {
+	  for (var _len = arguments.length, propNames = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	    propNames[_key - 2] = arguments[_key];
+	  }
+	
+	  var ConnectedViewComponent = (function (_React$Component) {
+	    _inherits(ConnectedViewComponent, _React$Component);
+	
+	    function ConnectedViewComponent() {
+	      _classCallCheck(this, ConnectedViewComponent);
+	
+	      _get(Object.getPrototypeOf(ConnectedViewComponent.prototype), "constructor", this).apply(this, arguments);
+	    }
+	
+	    _createClass(ConnectedViewComponent, [{
+	      key: "render",
+	      value: function render() {
+	        var _this = this;
+	
+	        return _react2["default"].createElement(
+	          ConnectedStore,
+	          { store: Store, propNames: propNames },
+	          function (propValues) {
+	            return _react2["default"].createElement(ViewComponent, _extends({}, propValues, _this.props));
+	          }
+	        );
+	      }
+	    }]);
+	
+	    return ConnectedViewComponent;
+	  })(_react2["default"].Component);
+	
+	  return ConnectedViewComponent;
+	}
+	
+	module.exports = MakeConnectedComponent;
+
+/***/ },
+/* 189 */
+/*!***********************************!*\
+  !*** ./js/components/Products.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	
 	var React = __webpack_require__(/*! react */ 1);
 	var QuantityControl = __webpack_require__(/*! ./QuantityControl */ 187);
@@ -22761,8 +22815,9 @@
 	
 	/*引入Action*/
 	var CartStore = __webpack_require__(/*! ../stores/CartStore */ 162);
-	var LikeStore = __webpack_require__(/*! ../stores/LikeStore */ 189);
+	var LikeStore = __webpack_require__(/*! ../stores/LikeStore */ 190);
 	var ConnectedStore = __webpack_require__(/*! ./ConnectedStore */ 164);
+	var MakeConnectedComponent = __webpack_require__(/*! ./MakeConnectedComponent */ 188);
 	var addCartItem = CartStore.addCartItem;
 	var addLikeItem = LikeStore.addLikeItem;
 	
@@ -22859,42 +22914,26 @@
 	  }
 	});
 	
-	var ConnectedProducts = (function (_React$Component) {
-	  _inherits(ConnectedProducts, _React$Component);
+	/*class ConnectedProducts extends  React.Component{
+	    render(){
 	
-	  function ConnectedProducts() {
-	    _classCallCheck(this, ConnectedProducts);
-	
-	    _get(Object.getPrototypeOf(ConnectedProducts.prototype), "constructor", this).apply(this, arguments);
-	  }
-	
-	  _createClass(ConnectedProducts, [{
-	    key: "render",
-	    value: function render() {
-	
-	      return React.createElement(
-	        ConnectedStore,
-	        { store: CartStore, propNames: ["cartItems"] },
-	        function (propsOfStore1) {
-	          return React.createElement(
-	            ConnectedStore,
-	            { store: LikeStore, propNames: ["likeItems"] },
-	            function (propsOfStore2) {
-	              return React.createElement(Products, _extends({}, propsOfStore1, propsOfStore2));
-	            }
-	          );
-	        }
-	      );
+	      return <ConnectedStore store={CartStore} propNames={["cartItems"]}>
+	              {propsOfStore1 => {
+	                return (
+	                  <ConnectedStore store={LikeStore} propNames={["likeItems"]} >
+	                    {propsOfStore2 => {
+	                      return <Products {...propsOfStore1} {...propsOfStore2}/>;
+	                    }}
+	                  </ConnectedStore>
+	                )
+	              }}
+	            </ConnectedStore>
 	    }
-	  }]);
-	
-	  return ConnectedProducts;
-	})(React.Component);
-	
-	module.exports = ConnectedProducts;
+	}*/
+	module.exports = MakeConnectedComponent(MakeConnectedComponent(Products, CartStore, "cartItems"), LikeStore, "likeItems");;
 
 /***/ },
-/* 189 */
+/* 190 */
 /*!********************************!*\
   !*** ./js/stores/LikeStore.js ***!
   \********************************/

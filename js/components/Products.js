@@ -8,6 +8,7 @@ const {cartItems,products} = require("../data");
 const CartStore = require("../stores/CartStore");
 const LikeStore = require("../stores/LikeStore");
 const ConnectedStore = require("./ConnectedStore");
+const MakeConnectedComponent = require("./MakeConnectedComponent");
 const {addCartItem} = CartStore;
 const {addLikeItem} = LikeStore;
 let Product = React.createClass({
@@ -86,7 +87,7 @@ let Products = React.createClass({
   },
 });
 
-class ConnectedProducts extends  React.Component{
+/*class ConnectedProducts extends  React.Component{
     render(){
 
       return <ConnectedStore store={CartStore} propNames={["cartItems"]}>
@@ -101,5 +102,7 @@ class ConnectedProducts extends  React.Component{
               }}
             </ConnectedStore>
     }
-}
-module.exports = ConnectedProducts;
+}*/
+module.exports = MakeConnectedComponent(
+    MakeConnectedComponent(Products,CartStore,"cartItems"),
+    LikeStore,"likeItems");;
