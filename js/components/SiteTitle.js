@@ -7,7 +7,6 @@ class SiteTitle extends  React.Component{
 	let {showOnlyLike} = this.props;
 	let src="img/heart.svg";
 	if(showOnlyLike){
-		console.log("SiteTitle showOnlyLike = "+showOnlyLike);
 		src="img/heart-liked.svg";
 	}
     return (

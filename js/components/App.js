@@ -1,10 +1,10 @@
 const React = require("react");
-
+const enableLoggin = require("./LoggingService");
 const SiteTitle = require("./SiteTitle");
 const Checkout = require("./Checkout");
 const Cart = require("./Cart");
 const Products = require("./Products");
-
+enableLoggin();
 let App = React.createClass({
   // The `render` method will generate the `buyshoes` site's virtual DOM.
   render: function() {

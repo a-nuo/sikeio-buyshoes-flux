@@ -1,9 +1,45 @@
+const AppDispatcher = require( "../components/AppDispatcher");
 const EventEmitter = require("events");
+
 let emitter = new EventEmitter();
 
 function emitChange(){
 	emitter.emit("change");
 }
+
+let handlers = {
+  // 私有的写 API。不要暴露这些函数！
+  	addCartItem(action){
+  		let {productId} = action;
+		if(_cartItems[productId] ){
+			_cartItems[productId].quantity+=1;
+		} else {
+			_cartItems[productId] = {id:productId,quantity:1};
+		}
+		emitChange();
+	},
+	removeCartItem(action) {
+  		let {productId} = action;
+		delete _cartItems[productId];
+		emitChange();
+	},
+	/*更新购物车产品数量*/
+	updateCartItemQuantity(action){
+  		let {productId,quantity} = action;
+		if(_cartItems[productId] && quantity>1){
+			_cartItems[productId].quantity=quantity;
+			emitChange();
+		}
+	},
+};
+// 监听 "action" 事件
+AppDispatcher.register((action) => {
+  let handler = handlers[action.type];
+  // 如果 store 没有对应的句柄，忽略该 action
+  handler && handler(action);
+});
+
+
 
 let _cartItems = {};
 module.exports = {
@@ -14,27 +50,8 @@ module.exports = {
 	cartItems(){
 		return _cartItems;
 	},
-	/*Action start*/
-	addCartItem(productId){
-		if(_cartItems[productId] ){
-			_cartItems[productId].quantity+=1;
-		} else {
-			_cartItems[productId] = {id:productId,quantity:1};
-		}
-		emitChange();
-	},
-	removeCartItem(productId) {
-		delete _cartItems[productId];
-		emitChange();
-	},
-	/*更新购物车产品数量*/
-	updateCartItemQuantity(productId,quantity){
-		if(_cartItems[productId] && quantity>1){
-			_cartItems[productId].quantity=quantity;
-			emitChange();
-		}
-	},
-	/*Action end*/
+
+	
 	addChangeListener(callback){
 		emitter.addListener("change",callback);
 	},

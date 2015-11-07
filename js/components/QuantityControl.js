@@ -1,7 +1,7 @@
 const React = require("react");
 /*引入Action*/
-const CartStore = require("../stores/CartStore");
-const {updateCartItemQuantity} = CartStore;
+// const CartStore = require("../stores/CartStore");
+const {updateCartItemQuantity} = require("./actions");
 let QuantityControl = React.createClass({
   render() {
     let {variant} = this.props;

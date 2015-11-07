@@ -7,7 +7,7 @@ const QuantityControl = require("./QuantityControl");
 const CartStore = require("../stores/CartStore");
 const ConnectedStore = require("./ConnectedStore");
 const MakeConnectedComponent = require("./MakeConnectedComponent");
-const {removeCartItem} = CartStore;
+const {removeCartItem} = require("./actions");
 let Cart = React.createClass({
   componentDidMount() {
 

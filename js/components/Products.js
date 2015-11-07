@@ -14,9 +14,8 @@ const MakeConnectedComponent = require("./MakeConnectedComponent");
 //第三种方式
 const connect = require("./connect");
 
-module.exports = ConnectedProducts;
 
-const {addCartItem} = CartStore;
+const {addCartItem} = require("./actions");
 const {addLikeItem} = LikeStore;
 let Product = React.createClass({
   render() {
