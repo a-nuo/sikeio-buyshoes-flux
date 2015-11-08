@@ -1,5 +1,5 @@
 import React from "react";
-const  CartStore =require("../stores/CartStore");
+import   CartStore  from "../stores/CartStore";
 class ConnectedStore extends React.Component {
   componentDidMount(){
     this.props.store.addChangeListener(this.forceUpdate.bind(this));

@@ -1,4 +1,5 @@
 import dispatcher from "./AppDispatcher";
+import UndoStore from "../stores/UndoStore";
 /*Action start*/
 module.exports = {
 	addCartItem(productId){
@@ -13,4 +14,8 @@ module.exports = {
 	updateCartItemQuantity(productId,quantity){
 		dispatcher.dispatch({type:"updateCartItemQuantity",productId:productId,quantity:quantity});
 	},
+	undoShoppingCart() {
+	  let cartItems = UndoStore.lastHistoryItem();
+	  dispatcher.dispatch({type: "undoShoppingCart", cartItems: cartItems});
+	}	
 }

@@ -7,7 +7,7 @@ const QuantityControl = require("./QuantityControl");
 const CartStore = require("../stores/CartStore");
 const ConnectedStore = require("./ConnectedStore");
 const MakeConnectedComponent = require("./MakeConnectedComponent");
-const {removeCartItem} = require("./actions");
+const {removeCartItem,undoShoppingCart} = require("./actions");
 let Cart = React.createClass({
   componentDidMount() {
 
@@ -33,6 +33,7 @@ let Cart = React.createClass({
           {this.renderCartItems()}
 
         </div> {/* cart-item */}
+        <h3 className="cart__undo"><a onClick={undoShoppingCart.bind(this)}>undo</a></h3>
       </div>
     );
   }

@@ -433,6 +433,14 @@ a:hover {
   background: rgba(0,255,0,0.3);
 }
 
+.cart__undo {
+  position: absolute;
+  top: 0; right: 0;
+  padding: 15px 0;
+  justify-content: center;
+  z-index: 20;
+}
+
 @media (max-width: 950px) {
   .site__right-sidebar {
     width: 40%;
@@ -476,4 +484,5 @@ a:hover {
     right: auto;
     left: 0;
   }
+
 }

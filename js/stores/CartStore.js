@@ -1,5 +1,7 @@
-const AppDispatcher = require( "../components/AppDispatcher");
-const EventEmitter = require("events");
+
+import AppDispatcher from "../components/AppDispatcher";
+import EventEmitter from "events";
+import UndoStore from "./UndoStore";
 
 let emitter = new EventEmitter();
 
@@ -31,9 +33,18 @@ let handlers = {
 			emitChange();
 		}
 	},
+	undoShoppingCart(action){
+		let {cartItems} = action;
+		if(cartItems){
+			_cartItems = cartItems;
+		}
+		emitChange();
+	}
 };
 // 监听 "action" 事件
 AppDispatcher.register((action) => {
+  
+  //AppDispatcher.waitFor([UndoStore.undoToken]);
   let handler = handlers[action.type];
   // 如果 store 没有对应的句柄，忽略该 action
   handler && handler(action);
@@ -42,7 +53,7 @@ AppDispatcher.register((action) => {
 
 
 let _cartItems = {};
-module.exports = {
+export default {
 
 	getCartItems(){
 		return _cartItems;
@@ -59,4 +70,4 @@ module.exports = {
 	removeChangeListener(callback){
 		emitter.removeListener("change",callback);
 	}
-};
+}
